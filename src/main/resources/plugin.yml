@@ -1,4 +1,4 @@
-name: OxidizerTool
+name: OxidationTool
 version: '1.0'
 main: xyz.bobkinn.oxidizer.Main
 api-version: '1.21'

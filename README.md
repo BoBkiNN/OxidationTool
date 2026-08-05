@@ -1,5 +1,5 @@
 
-## OxidizerTool
+## OxidationTool
 
 Simple Minecraft Paper plugin that adds tool to adjust oxidation of copper blocks.
 
@@ -7,7 +7,7 @@ Simple Minecraft Paper plugin that adds tool to adjust oxidation of copper block
 * Supports all oxidizable blocks, including doors
 * Keeps block state (rotation and other states are preserved)
 * Cycle through oxidation phases
-* Deoxidize on left click
+* Decrease oxidation on left click
 
 ### Requirements:
 * Java 21 or newer
@@ -28,7 +28,7 @@ Simple Minecraft Paper plugin that adds tool to adjust oxidation of copper block
 Usage requires `oxidizer.use` permission
 
 ### Commands:
-Command permission: `oxidizer.command`
+Commands permission: `oxidizer.command`
 * `/oxidizer tool <player>` - gives tool to player or to self if no player argument supplied.
   Permission: `oxidizer.command.tool` and `oxidizer.command.tool.other`
 * `/oxidizer reload` - reloads configuration.
@@ -40,6 +40,6 @@ You can use `oxidizer:tool` string from Custom Model Data in custom resource pac
 ### Configuration:
 
 After installing and running plugin for first time, 
-see `plugins/OxidizerTool/config.yml` to change messages and settings
+see `plugins/OxidationTool/config.yml` to change messages and settings
 
 Default config: [config.yml](/src/main/resources/config.yml)
