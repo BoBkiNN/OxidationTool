@@ -15,7 +15,7 @@ public final class Main extends JavaPlugin {
     }
 
     private ConfigurationSection getMessagesSection() {
-        return getConfig().getConfigurationSection("messages");
+        return getConfig().getConfigurationSection("lang");
     }
 
     public void reload(boolean onEnable) {
