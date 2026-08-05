@@ -3,6 +3,7 @@ package xyz.bobkinn.oxidizer;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.CustomModelData;
 import io.papermc.paper.datacomponent.item.ItemLore;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemRarity;
@@ -18,7 +19,13 @@ public final class OxidationToolItem {
         var name = i18n.get("tool.name");
         stack.setData(DataComponentTypes.ITEM_NAME, name);
         var lore = i18n.getList("tool.lore");
-        if (!lore.isEmpty()) stack.setData(DataComponentTypes.LORE, ItemLore.lore(lore));
+        if (!lore.isEmpty()) {
+            // disable italic text
+            var fixedLore = lore.stream().map(
+                    c -> c.style(b -> b.decoration(TextDecoration.ITALIC, false))
+            ).toList();
+            stack.setData(DataComponentTypes.LORE, ItemLore.lore(fixedLore));
+        }
 
         stack.setData(DataComponentTypes.MAX_STACK_SIZE, 1);
         stack.setData(DataComponentTypes.RARITY, ItemRarity.EPIC);
