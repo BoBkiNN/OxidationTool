@@ -4,8 +4,6 @@ import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.arguments.EntitySelectorArgument;
 import org.bukkit.entity.Player;
 
-import java.util.Optional;
-
 public class Commands {
 
     public static void register(Main main) {
@@ -20,6 +18,7 @@ public class Commands {
                     Player target;
                     if (arg != null) {
                         if (!Main.checkPermission("oxidizer.command.tool.other").test(sender)) {
+                            sender.sendMessage(main.getI18n().get("command.only-player"));
                             return;
                         }
                         target = arg;
