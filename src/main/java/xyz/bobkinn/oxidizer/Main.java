@@ -21,11 +21,11 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public final class Main extends JavaPlugin implements Listener {
-    private final Translator i18n;
+    private final I18n i18n;
     private final OxidizerToolUtil toolUtil;
 
     public Main() {
-        i18n = new Translator(this::getMessagesSection);
+        i18n = new I18n(this::getMessagesSection);
         toolUtil = new OxidizerToolUtil(getSLF4JLogger(), i18n, this::getConfig);
     }
 
@@ -33,7 +33,7 @@ public final class Main extends JavaPlugin implements Listener {
         return sender -> sender.isOp() || sender.hasPermission(permission);
     }
 
-    public Translator getI18n() {
+    public I18n getI18n() {
         return i18n;
     }
 
@@ -71,9 +71,9 @@ public final class Main extends JavaPlugin implements Listener {
         var tool = toolUtil.createTool();
         var failed = player.getInventory().addItem(tool);
         if (!failed.isEmpty()) {
-            sender.sendMessage(i18n.getTranslation("command.tool.failed"));
+            sender.sendMessage(i18n.get("command.tool.failed"));
         } else {
-            sender.sendMessage(i18n.getTranslation("command.tool.success"));
+            sender.sendMessage(i18n.get("command.tool.success"));
         }
     }
 
@@ -97,7 +97,7 @@ public final class Main extends JavaPlugin implements Listener {
             success = oxidize(block, forward);
         } catch (Exception e) {
             getSLF4JLogger().error("Failed to oxidize block {}; forward: {}", block.getLocation().toVector(), forward, e);
-            var msg = i18n.getTranslationOrNull("on-fail");
+            var msg = i18n.getOrNull("on-fail");
             if (msg != null) event.getPlayer().sendMessage(msg);
             return;
         }

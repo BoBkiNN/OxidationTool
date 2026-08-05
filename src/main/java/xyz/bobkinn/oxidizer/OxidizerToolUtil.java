@@ -16,10 +16,10 @@ import java.util.function.Supplier;
 public final class OxidizerToolUtil {
     public static final NamespacedKey TOOL_MARKER = new NamespacedKey("oxidizer", "tool");
     private final Logger logger;
-    private final Translator i18n;
+    private final I18n i18n;
     private final Supplier<ConfigurationSection> config;
 
-    public OxidizerToolUtil(Logger logger, Translator i18n, Supplier<ConfigurationSection> config) {
+    public OxidizerToolUtil(Logger logger, I18n i18n, Supplier<ConfigurationSection> config) {
         this.logger = logger;
         this.i18n = i18n;
         this.config = config;
@@ -39,9 +39,9 @@ public final class OxidizerToolUtil {
     @SuppressWarnings("UnstableApiUsage")
     public ItemStack createTool() {
         var stack = new ItemStack(toolItem, 1);
-        var name = i18n.getTranslation("tool.name");
+        var name = i18n.get("tool.name");
         stack.setData(DataComponentTypes.ITEM_NAME, name);
-        var lore = i18n.getTranslationList("tool.lore");
+        var lore = i18n.getList("tool.lore");
         if (!lore.isEmpty()) stack.setData(DataComponentTypes.LORE, ItemLore.lore(lore));
 
         stack.setData(DataComponentTypes.MAX_STACK_SIZE, 1);

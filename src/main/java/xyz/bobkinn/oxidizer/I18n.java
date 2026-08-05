@@ -7,7 +7,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import java.util.List;
 import java.util.function.Supplier;
 
-public record Translator(Supplier<ConfigurationSection> configSupplier) {
+public record I18n(Supplier<ConfigurationSection> configSupplier) {
 
     public static final LegacyComponentSerializer SERIALIZER = LegacyComponentSerializer
             .builder().character('&').extractUrls().hexColors().build();
@@ -20,23 +20,23 @@ public record Translator(Supplier<ConfigurationSection> configSupplier) {
         return configSupplier.get();
     }
 
-    public Component getTranslationOrNull(String key) {
+    public Component getOrNull(String key) {
         var raw = getConfig().getString(key);
         if (raw == null || raw.isEmpty()) return null;
-        return Translator.deserializeText(raw);
+        return I18n.deserializeText(raw);
     }
 
-    public List<Component> getTranslationList(String key) {
+    public List<Component> getList(String key) {
         if (getConfig().isString(key)) {
-            var t = getTranslationOrNull(key);
+            var t = getOrNull(key);
             return t != null ? List.of(t) : List.of();
         }
         return getConfig().getStringList(key)
-                .stream().map(Translator::deserializeText).toList();
+                .stream().map(I18n::deserializeText).toList();
     }
 
-    public Component getTranslation(String key) {
-        var c = getTranslationOrNull(key);
+    public Component get(String key) {
+        var c = getOrNull(key);
         return c != null ? c : Component.text(key);
     }
 }

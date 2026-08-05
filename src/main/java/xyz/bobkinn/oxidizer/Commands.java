@@ -24,7 +24,7 @@ public class Commands {
                 .withRequirement(Main.checkPermission("oxidizer.command.reload"))
                 .executes((sender, args) -> {
                     main.reload();
-                    sender.sendMessage(main.getI18n().getTranslation("command.reload.success"));
+                    sender.sendMessage(main.getI18n().get("command.reload.success"));
                 });
 
         new CommandAPICommand("oxidizer")
