@@ -1,7 +1,10 @@
 lang:
   tool:
     name: Oxidizer
-    lore: []
+    lore: [
+      "&6Right-click to increase oxidation stage",
+      "&6Left-click to decrease oxidation stage"
+    ]
   command:
     reload:
       success: "&aConfiguration reloaded"
