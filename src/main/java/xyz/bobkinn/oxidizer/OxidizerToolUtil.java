@@ -48,9 +48,8 @@ public final class OxidizerToolUtil {
         stack.setData(DataComponentTypes.RARITY, ItemRarity.EPIC);
         stack.setData(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true);
 
-        stack.editPersistentDataContainer(pdc -> {
-            pdc.set(TOOL_MARKER, PersistentDataType.BOOLEAN, true);
-        });
+        stack.editPersistentDataContainer(pdc ->
+                pdc.set(TOOL_MARKER, PersistentDataType.BOOLEAN, true));
         stack.setData(DataComponentTypes.CUSTOM_MODEL_DATA, CustomModelData
                 .customModelData()
                 .addString(TOOL_MARKER.asString())
