@@ -39,7 +39,7 @@ public class Commands {
         var reload = new CommandAPICommand("reload")
                 .withRequirement(permissionCheck("oxidizer.command.reload"))
                 .executes((sender, args) -> {
-                    main.reload();
+                    main.reload(false);
                     sender.sendMessage(main.i18n.get("command.reload.success"));
                 });
 

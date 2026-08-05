@@ -18,7 +18,7 @@ public final class Main extends JavaPlugin {
         return getConfig().getConfigurationSection("messages");
     }
 
-    public void reload() {
+    public void reload(boolean onEnable) {
         var dataFolder = getDataFolder();
         if (!dataFolder.exists() && !dataFolder.mkdirs()) {
             getSLF4JLogger().warn("Failed to create data folder");
@@ -26,12 +26,16 @@ public final class Main extends JavaPlugin {
         saveDefaultConfig();
         reloadConfig();
         handler.reload(getConfig());
+
+        if (!onEnable) {
+            getSLF4JLogger().info("Configuration reloaded");
+        }
     }
 
     @Override
     public void onEnable() {
         // Plugin startup logic
-        reload();
+        reload(true);
         getServer().getPluginManager().registerEvents(handler, this);
         Commands.register(this);
     }
