@@ -76,7 +76,7 @@ public class OxidationToolHandler implements Listener {
         try {
             success = oxidize(block, forward);
         } catch (Exception e) {
-            logger.error("Failed to oxidize block {}; forward: {}", block.getLocation().toVector(), forward, e);
+            logger.error("Failed to oxidize block {}; forward: {}", block.getLocation(), forward, e);
             var msg = i18n.getOrNull("on-fail");
             if (msg != null) player.sendMessage(msg);
             return;
