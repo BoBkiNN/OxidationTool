@@ -111,7 +111,7 @@ public class OxidationToolHandler implements Listener {
      * @param forward true if next oxidation phase, else previous
      * @return if changed
      */
-    private boolean changeOxidation(Block block, boolean forward) {
+    private boolean oxidizeBlock(Block block, boolean forward) {
         var cur = block.getType();
         var next = nextType(cur, forward);
         if (next == null) return false;
@@ -130,13 +130,13 @@ public class OxidationToolHandler implements Listener {
      * @return true if any block changed
      */
     public boolean oxidize(Block block, boolean forward) {
-        var o1 = changeOxidation(block, forward);
+        var o1 = oxidizeBlock(block, forward);
         var state = block.getBlockData();
         // handle doors
         if (state instanceof Bisected bis) {
             var dy = bis.getHalf() == Bisected.Half.BOTTOM ? 1 : -1;
             var other = block.getRelative(0, dy, 0);
-            var o2 = changeOxidation(other, forward);
+            var o2 = oxidizeBlock(other, forward);
             return o2 || o1;
         }
         return o1;
