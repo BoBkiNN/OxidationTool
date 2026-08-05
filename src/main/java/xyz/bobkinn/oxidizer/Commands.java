@@ -12,17 +12,17 @@ import java.util.function.Predicate;
 public class Commands {
 
     public static void register(Main main) {
-        var tool = new CommandAPICommand("tool")
-                .withRequirement(permissionCheck("oxidizer.command.tool"))
+        var give = new CommandAPICommand("give")
+                .withRequirement(permissionCheck("oxidizer.command.give"))
                 .withOptionalArguments(
                         new EntitySelectorArgument.OnePlayer("target")
-                                .withRequirement(permissionCheck("oxidizer.command.tool.other"))
+                                .withRequirement(permissionCheck("oxidizer.command.give.other"))
                 )
                 .executes((sender, args) -> {
                     var arg = (Player) args.getOptional("target").orElse(null);
                     Player target;
                     if (arg != null) {
-                        if (!permissionCheck("oxidizer.command.tool.other").test(sender)) {
+                        if (!permissionCheck("oxidizer.command.give.other").test(sender)) {
                             sender.sendMessage(main.i18n.get("command.only-player"));
                             return;
                         }
@@ -45,7 +45,7 @@ public class Commands {
 
         new CommandAPICommand("oxidizer")
                 .withRequirement(permissionCheck("oxidizer.command"))
-                .withSubcommands(tool, reload)
+                .withSubcommands(give, reload)
                 .register(main);
     }
 

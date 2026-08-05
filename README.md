@@ -21,7 +21,7 @@ Simple Minecraft Paper plugin that adds tool to adjust oxidation of copper block
 
 ### Usage
 
-1. Obtain tool using `/oxidizer tool`
+1. Obtain tool using `/oxidizer give`
 2. Use RMB on oxidizable block to increase oxidation
 3. Use LMB on oxidizable block to decrease oxidation
 
@@ -29,8 +29,8 @@ Usage requires `oxidizer.use` permission
 
 ### Commands:
 Commands permission: `oxidizer.command`
-* `/oxidizer tool <player>` - gives tool to player or to self if no player argument supplied.
-  Permission: `oxidizer.command.tool` and `oxidizer.command.tool.other`
+* `/oxidizer give <player>` - gives tool to player or to self if no player argument supplied.
+  Permission: `oxidizer.command.give` and `oxidizer.command.give.other`
 * `/oxidizer reload` - reloads configuration.
   Permission: `oxidizer.command.reload`
 
