@@ -21,8 +21,8 @@ public final class OxidationToolItem {
         var lore = i18n.getList("tool.lore");
         if (!lore.isEmpty()) {
             // disable italic text
-            var fixedLore = lore.stream().map(
-                    c -> c.style(b -> b.decoration(TextDecoration.ITALIC, false))
+            var fixedLore = lore.stream().map(c -> c.style(
+                    b -> b.decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE))
             ).toList();
             stack.setData(DataComponentTypes.LORE, ItemLore.lore(fixedLore));
         }
