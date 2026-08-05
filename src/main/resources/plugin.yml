@@ -1,5 +1,8 @@
 name: OxidationToolHandler
-version: '1.0'
+version: ${version}
 main: xyz.bobkinn.oxidizer.Main
 api-version: '1.21'
+author: BoBkiNN
+description: "Plugin that adds tool to control oxidation"
+website: https://modrinth.com/plugin/oxidationtool
 depend: [CommandAPI]
