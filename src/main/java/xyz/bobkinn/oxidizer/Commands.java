@@ -21,24 +21,24 @@ public class Commands {
                     Player target;
                     if (arg != null) {
                         if (!permissionCheck("oxidizer.command.tool.other").test(sender)) {
-                            sender.sendMessage(main.getI18n().get("command.only-player"));
+                            sender.sendMessage(main.i18n.get("command.only-player"));
                             return;
                         }
                         target = arg;
                     } else if (sender instanceof Player player) {
                         target = player;
                     } else {
-                        sender.sendMessage(main.getI18n().get("command.only-player"));
+                        sender.sendMessage(main.i18n.get("command.only-player"));
                         return;
                     }
-                    main.giveTool(sender, target);
+                    main.handler.giveTool(sender, target);
                 });
 
         var reload = new CommandAPICommand("reload")
                 .withRequirement(permissionCheck("oxidizer.command.reload"))
                 .executes((sender, args) -> {
                     main.reload();
-                    sender.sendMessage(main.getI18n().get("command.reload.success"));
+                    sender.sendMessage(main.i18n.get("command.reload.success"));
                 });
 
         new CommandAPICommand("oxidizer")

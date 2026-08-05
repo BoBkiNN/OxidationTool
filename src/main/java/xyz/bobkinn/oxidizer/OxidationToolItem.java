@@ -5,40 +5,16 @@ import io.papermc.paper.datacomponent.item.CustomModelData;
 import io.papermc.paper.datacomponent.item.ItemLore;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemRarity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
-import org.slf4j.Logger;
 
-import java.util.function.Supplier;
-
-public final class OxidationToolUtil {
+public final class OxidationToolItem {
     public static final NamespacedKey TOOL_MARKER = new NamespacedKey("oxidizer", "tool");
-    private final Logger logger;
-    private final I18n i18n;
-    private final Supplier<ConfigurationSection> config;
-
-    public OxidationToolUtil(Logger logger, I18n i18n, Supplier<ConfigurationSection> config) {
-        this.logger = logger;
-        this.i18n = i18n;
-        this.config = config;
-    }
-
-    private Material toolItem = Material.BREEZE_ROD;
-
-    public void reload() {
-        var key = config.get().getString("tool_item", "minecraft:breeze_rod");
-        var m = Material.matchMaterial(key);
-        if (m == null) {
-            logger.warn("Failed to load tool material '{}'", key);
-        }
-        toolItem = m;
-    }
 
     @SuppressWarnings("UnstableApiUsage")
-    public ItemStack createTool() {
-        var stack = new ItemStack(toolItem, 1);
+    public static ItemStack create(Material base, I18n i18n) {
+        var stack = new ItemStack(base, 1);
         var name = i18n.get("tool.name");
         stack.setData(DataComponentTypes.ITEM_NAME, name);
         var lore = i18n.getList("tool.lore");
@@ -57,7 +33,7 @@ public final class OxidationToolUtil {
         return stack;
     }
 
-    public boolean isTool(ItemStack stack) {
+    public static boolean is(ItemStack stack) {
         return stack.getPersistentDataContainer()
                 .getOrDefault(TOOL_MARKER, PersistentDataType.BOOLEAN, false);
     }
