@@ -4,6 +4,8 @@ import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.arguments.EntitySelectorArgument;
 import org.bukkit.entity.Player;
 
+import java.util.Optional;
+
 public class Commands {
 
     public static void register(Main main) {
@@ -12,14 +14,24 @@ public class Commands {
                 .withOptionalArguments(
                         new EntitySelectorArgument.OnePlayer("target")
                                 .withRequirement(Main.checkPermission("oxidizer.command.tool.other"))
-                                .executes(((sender, args) -> {
-                                    var target = (Player) args.get("target");
-                                    if (target != null) main.giveTool(sender, target);
-                        }))
                 )
-                .executesPlayer(((player, args) -> {
-                    main.giveTool(player, player);
-                }));
+                .executes((sender, args) -> {
+                    var arg = (Player) args.getOptional("target").orElse(null);
+                    Player target;
+                    if (arg != null) {
+                        if (!Main.checkPermission("oxidizer.command.tool.other").test(sender)) {
+                            return;
+                        }
+                        target = arg;
+                    } else if (sender instanceof Player player) {
+                        target = player;
+                    } else {
+                        sender.sendMessage(main.getI18n().get("command.only-player"));
+                        return;
+                    }
+                    main.giveTool(sender, target);
+                });
+
         var reload = new CommandAPICommand("reload")
                 .withRequirement(Main.checkPermission("oxidizer.command.reload"))
                 .executes((sender, args) -> {

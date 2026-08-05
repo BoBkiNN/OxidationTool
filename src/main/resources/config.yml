@@ -8,6 +8,7 @@ messages:
     tool:
       success: "&aOxidizer tool given"
       failed: "&cFailed to give oxidizer tool"
+    only-player: "&cThis command can be executed only by player"
   on-fail: "&cUnknown error using tool"
 
 # Enables deoxidize behaviour on left click
