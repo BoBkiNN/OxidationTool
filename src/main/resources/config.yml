@@ -11,9 +11,10 @@ messages:
     only-player: "&cThis command can be executed only by player"
   on-fail: "&cUnknown error using tool"
 
-# Enables deoxidize behaviour on left click
-deoxidizer: true
-# Item type used for tool
-tool_item: "minecraft:breeze_rod"
-# Enables oxidation state cycling.
-cycle: false
+tool:
+  # Enables oxidation decrease on left click
+  deoxidize: true
+  # Item type used for tool
+  material: "minecraft:breeze_rod"
+  # Enables oxidation state cycling.
+  cycle_oxidation: false

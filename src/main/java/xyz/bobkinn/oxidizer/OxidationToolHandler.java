@@ -21,7 +21,7 @@ public class OxidationToolHandler implements Listener {
     private final I18n i18n;
 
     private boolean cycle = false;
-    private boolean deoxidizer = true;
+    private boolean deoxidize = true;
     private Material toolMaterial = Material.BREEZE_ROD;
 
     public OxidationToolHandler(Logger logger, I18n i18n) {
@@ -30,10 +30,10 @@ public class OxidationToolHandler implements Listener {
     }
 
     public void reload(ConfigurationSection config) {
-        this.cycle = config.getBoolean("cycle", false);
-        this.deoxidizer = config.getBoolean("deoxidizer", true);
+        this.cycle = config.getBoolean("tool.cycle_oxidation", false);
+        this.deoxidize = config.getBoolean("tool.deoxidize", true);
 
-        var mKey = config.getString("tool_item", "minecraft:breeze_rod");
+        var mKey = config.getString("tool.material", "minecraft:breeze_rod");
         var m = Material.matchMaterial(mKey);
         if (m != null) {
             toolMaterial = m;
@@ -70,7 +70,7 @@ public class OxidationToolHandler implements Listener {
         if (block == null) return;
         if (!OxidationToolItem.is(item)) return;
 
-        boolean forward = !deoxidizer || event.getAction().isRightClick();
+        boolean forward = !deoxidize || event.getAction().isRightClick();
 
         boolean success;
         try {
