@@ -13,13 +13,13 @@ import org.slf4j.Logger;
 
 import java.util.function.Supplier;
 
-public final class OxidizerToolUtil {
+public final class OxidationToolUtil {
     public static final NamespacedKey TOOL_MARKER = new NamespacedKey("oxidizer", "tool");
     private final Logger logger;
     private final I18n i18n;
     private final Supplier<ConfigurationSection> config;
 
-    public OxidizerToolUtil(Logger logger, I18n i18n, Supplier<ConfigurationSection> config) {
+    public OxidationToolUtil(Logger logger, I18n i18n, Supplier<ConfigurationSection> config) {
         this.logger = logger;
         this.i18n = i18n;
         this.config = config;

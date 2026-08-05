@@ -22,11 +22,11 @@ import java.util.function.Predicate;
 
 public final class Main extends JavaPlugin implements Listener {
     private final I18n i18n;
-    private final OxidizerToolUtil toolUtil;
+    private final OxidationToolUtil toolUtil;
 
     public Main() {
         i18n = new I18n(this::getMessagesSection);
-        toolUtil = new OxidizerToolUtil(getSLF4JLogger(), i18n, this::getConfig);
+        toolUtil = new OxidationToolUtil(getSLF4JLogger(), i18n, this::getConfig);
     }
 
     static Predicate<CommandSender> checkPermission(String permission) {
