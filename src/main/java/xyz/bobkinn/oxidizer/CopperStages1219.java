@@ -9,6 +9,8 @@ import java.util.List;
  */
 public class CopperStages1219 {
 
+    private CopperStages1219() {}
+
     public static final List<Material> CHEST = List.of(
             Material.COPPER_CHEST,
             Material.EXPOSED_COPPER_CHEST,
