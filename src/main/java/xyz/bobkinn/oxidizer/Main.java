@@ -18,7 +18,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 public final class Main extends JavaPlugin implements Listener {
     private final I18n i18n;
@@ -27,10 +26,6 @@ public final class Main extends JavaPlugin implements Listener {
     public Main() {
         i18n = new I18n(this::getMessagesSection);
         toolUtil = new OxidationToolUtil(getSLF4JLogger(), i18n, this::getConfig);
-    }
-
-    static Predicate<CommandSender> checkPermission(String permission) {
-        return sender -> sender.isOp() || sender.hasPermission(permission);
     }
 
     public I18n getI18n() {
@@ -77,10 +72,15 @@ public final class Main extends JavaPlugin implements Listener {
         }
     }
 
+    private boolean canUseTool(Player player) {
+        return player.isOp() || player.hasPermission("oxidizer.use");
+    }
+
 
     @EventHandler
     public void onBlockInteract(@NotNull PlayerInteractEvent event) {
-        if (!checkPermission("oxidizer.use").test(event.getPlayer())) {
+        var player = event.getPlayer();
+        if (!canUseTool(player)) {
             return;
         }
        var item = event.getItem();
@@ -98,13 +98,13 @@ public final class Main extends JavaPlugin implements Listener {
         } catch (Exception e) {
             getSLF4JLogger().error("Failed to oxidize block {}; forward: {}", block.getLocation().toVector(), forward, e);
             var msg = i18n.getOrNull("on-fail");
-            if (msg != null) event.getPlayer().sendMessage(msg);
+            if (msg != null) player.sendMessage(msg);
             return;
         }
         if (!success) return;
         if (event.getAction().isRightClick()) {
             var hand = event.getHand();
-            event.getPlayer().swingHand(hand != null ? hand : EquipmentSlot.HAND);
+            player.swingHand(hand != null ? hand : EquipmentSlot.HAND);
         }
         event.setCancelled(true);
     }
@@ -128,12 +128,11 @@ public final class Main extends JavaPlugin implements Listener {
     }
 
     /**
-     *
      * @param block target block
-     * @param forward true if next oxidation stage, else previous
+     * @param forward true if next oxidation phase, else previous
      * @return if changed
      */
-    public boolean oxidize0(Block block, boolean forward) {
+    private boolean changeOxidation(Block block, boolean forward) {
         var cur = block.getType();
         var next = nextType(cur, forward);
         if (next == null) return false;
@@ -145,14 +144,20 @@ public final class Main extends JavaPlugin implements Listener {
         return true;
     }
 
+    /**
+     * Changes oxidation phase of block, or multiple blocks if target block is only part
+     * @param block target block
+     * @param forward true if next oxidation phase, else previous
+     * @return true if any block changed
+     */
     public boolean oxidize(Block block, boolean forward) {
-        var o1 = oxidize0(block, forward);
+        var o1 = changeOxidation(block, forward);
         var state = block.getBlockData();
         // handle doors
         if (state instanceof Bisected bis) {
-            var d = bis.getHalf() == Bisected.Half.BOTTOM ? 1 : -1;
-            var other = block.getRelative(0, d, 0);
-            var o2 = oxidize0(other, forward);
+            var dy = bis.getHalf() == Bisected.Half.BOTTOM ? 1 : -1;
+            var other = block.getRelative(0, dy, 0);
+            var o2 = changeOxidation(other, forward);
             return o2 || o1;
         }
         return o1;

@@ -2,22 +2,25 @@ package xyz.bobkinn.oxidizer;
 
 import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.arguments.EntitySelectorArgument;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.function.Predicate;
 
 public class Commands {
 
     public static void register(Main main) {
         var tool = new CommandAPICommand("tool")
-                .withRequirement(Main.checkPermission("oxidizer.command.tool"))
+                .withRequirement(permissionCheck("oxidizer.command.tool"))
                 .withOptionalArguments(
                         new EntitySelectorArgument.OnePlayer("target")
-                                .withRequirement(Main.checkPermission("oxidizer.command.tool.other"))
+                                .withRequirement(permissionCheck("oxidizer.command.tool.other"))
                 )
                 .executes((sender, args) -> {
                     var arg = (Player) args.getOptional("target").orElse(null);
                     Player target;
                     if (arg != null) {
-                        if (!Main.checkPermission("oxidizer.command.tool.other").test(sender)) {
+                        if (!permissionCheck("oxidizer.command.tool.other").test(sender)) {
                             sender.sendMessage(main.getI18n().get("command.only-player"));
                             return;
                         }
@@ -32,15 +35,19 @@ public class Commands {
                 });
 
         var reload = new CommandAPICommand("reload")
-                .withRequirement(Main.checkPermission("oxidizer.command.reload"))
+                .withRequirement(permissionCheck("oxidizer.command.reload"))
                 .executes((sender, args) -> {
                     main.reload();
                     sender.sendMessage(main.getI18n().get("command.reload.success"));
                 });
 
         new CommandAPICommand("oxidizer")
-                .withRequirement(Main.checkPermission("oxidizer.command"))
+                .withRequirement(permissionCheck("oxidizer.command"))
                 .withSubcommands(tool, reload)
                 .register(main);
+    }
+
+    static Predicate<CommandSender> permissionCheck(String permission) {
+        return sender -> sender.isOp() || sender.hasPermission(permission);
     }
 }
