@@ -1,4 +1,4 @@
-name: OxidationToolHandler
+name: OxidationTool
 version: ${version}
 main: xyz.bobkinn.oxidizer.Main
 api-version: '1.21'
