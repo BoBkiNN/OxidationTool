@@ -1,0 +1,5 @@
+name: OxidizerToolUtil
+version: '1.0'
+main: xyz.bobkinn.oxidizer.Main
+api-version: '1.21'
+depend: [CommandAPI]

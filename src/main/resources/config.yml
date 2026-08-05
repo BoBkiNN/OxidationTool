@@ -1,0 +1,18 @@
+messages:
+  tool:
+    name: Oxidizer
+    lore: []
+  command:
+    reload:
+      success: "&aConfiguration reloaded"
+    tool:
+      success: "&aOxidizer tool given"
+      failed: "&cFailed to give oxidizer tool"
+  on-fail: "&cUnknown error using tool"
+
+# Enables deoxidize behaviour on left click
+deoxidizer: true
+# Item type used for tool
+tool_item: "minecraft:breeze_rod"
+# Enables oxidation state cycling.
+cycle: false
