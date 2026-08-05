@@ -4,6 +4,8 @@ import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.arguments.EntitySelectorArgument;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
 
@@ -47,7 +49,8 @@ public class Commands {
                 .register(main);
     }
 
-    static Predicate<CommandSender> permissionCheck(String permission) {
+    @Contract(pure = true)
+    public static @NotNull Predicate<CommandSender> permissionCheck(String permission) {
         return sender -> sender.isOp() || sender.hasPermission(permission);
     }
 }

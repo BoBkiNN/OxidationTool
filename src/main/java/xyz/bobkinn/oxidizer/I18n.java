@@ -7,7 +7,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import java.util.List;
 import java.util.function.Supplier;
 
-public record I18n(Supplier<ConfigurationSection> configSupplier) {
+public record I18n(Supplier<ConfigurationSection> config) {
 
     public static final LegacyComponentSerializer SERIALIZER = LegacyComponentSerializer
             .builder().character('&').extractUrls().hexColors().build();
@@ -16,22 +16,18 @@ public record I18n(Supplier<ConfigurationSection> configSupplier) {
         return SERIALIZER.deserialize(text);
     }
 
-    private ConfigurationSection getConfig() {
-        return configSupplier.get();
-    }
-
     public Component getOrNull(String key) {
-        var raw = getConfig().getString(key);
+        var raw = config.get().getString(key);
         if (raw == null || raw.isEmpty()) return null;
         return I18n.deserializeText(raw);
     }
 
     public List<Component> getList(String key) {
-        if (getConfig().isString(key)) {
+        if (config.get().isString(key)) {
             var t = getOrNull(key);
             return t != null ? List.of(t) : List.of();
         }
-        return getConfig().getStringList(key)
+        return config.get().getStringList(key)
                 .stream().map(I18n::deserializeText).toList();
     }
 
