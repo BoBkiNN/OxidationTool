@@ -1,5 +1,6 @@
 package xyz.bobkinn.oxidizer;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Bisected;
@@ -12,8 +13,11 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnmodifiableView;
 import org.slf4j.Logger;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class OxidationToolHandler implements Listener {
@@ -23,10 +27,23 @@ public class OxidationToolHandler implements Listener {
     private boolean doCycle = false;
     private boolean allowDeoxidize = true;
     private Material toolMaterial = Material.BREEZE_ROD;
+    private final List<List<Material>> copperStages;
+
+    private static @NotNull @UnmodifiableView List<List<Material>> collectStages() {
+        @SuppressWarnings("deprecation")
+        var dataVer = Bukkit.getUnsafe().getDataVersion();
+        var r = new ArrayList<>(CopperStages.TYPES);
+        // >= 25w32a
+        if (dataVer >= 4536) {
+            r.addAll(CopperStages1219.TYPES);
+        }
+        return Collections.unmodifiableList(r);
+    }
 
     public OxidationToolHandler(Logger logger, I18n i18n) {
         this.logger = logger;
         this.i18n = i18n;
+        this.copperStages = collectStages();
     }
 
     public void reload(ConfigurationSection config) {
@@ -91,7 +108,7 @@ public class OxidationToolHandler implements Listener {
 
     private @Nullable Material nextType(Material material, boolean forward) {
         var delta = forward ? 1 : -1;
-        for (List<Material> stages : CopperStages.TYPES) {
+        for (List<Material> stages : copperStages) {
             var idx = stages.indexOf(material);
             if (idx < 0) continue;
 
