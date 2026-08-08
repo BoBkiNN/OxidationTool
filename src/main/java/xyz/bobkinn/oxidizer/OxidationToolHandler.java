@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Bisected;
+import org.bukkit.block.data.type.Door;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -150,8 +151,8 @@ public class OxidationToolHandler implements Listener {
         var o1 = oxidizeBlock(block, forward);
         var state = block.getBlockData();
         // handle doors
-        if (state instanceof Bisected bis) {
-            var dy = bis.getHalf() == Bisected.Half.BOTTOM ? 1 : -1;
+        if (state instanceof Door door) {
+            var dy = door.getHalf() == Bisected.Half.BOTTOM ? 1 : -1;
             var other = block.getRelative(0, dy, 0);
             var o2 = oxidizeBlock(other, forward);
             return o2 || o1;
