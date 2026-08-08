@@ -149,9 +149,9 @@ public class OxidationToolHandler implements Listener {
      */
     public boolean oxidize(Block block, boolean forward) {
         var o1 = oxidizeBlock(block, forward);
-        var state = block.getBlockData();
+        var data = block.getBlockData();
         // handle doors
-        if (state instanceof Door door) {
+        if (data instanceof Door door) {
             var dy = door.getHalf() == Bisected.Half.BOTTOM ? 1 : -1;
             var other = block.getRelative(0, dy, 0);
             var o2 = oxidizeBlock(other, forward);
